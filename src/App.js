@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Redirect } from "react-router";
 
-function App() {
+import Landing from "./Landing/Container/LandingContainer";
+import Home from "./Home/Container/HomeContainer";
+
+import "./App.css";
+
+const App = () => {
+  const [userObject, setUserObject] = useState({});
+  const storeUserObject = (email, password) => {
+    setUserObject({ email, password });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+        <Switch>
+          <Route path="/" exact>
+            <Landing redirectToHome={storeUserObject} />
+          </Route>
+          <Route path="/home">
+            <Home user={userObject} />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
